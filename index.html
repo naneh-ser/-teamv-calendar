@@ -314,7 +314,8 @@ body {
 
           const gcStart = start.toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z';
           const gcEnd   = end.toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z';
-          const gcLink  = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Team+V+Community+Coaching+Call&dates=${gcStart}/${gcEnd}`;
+          const gcLocation = ev.location ? `&location=${encodeURIComponent(ev.location)}` : '';
+          const gcLink  = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Team+V+Community+Coaching+Call&dates=${gcStart}/${gcEnd}${gcLocation}`;
 
           html += `
 <div class="tvcc-card${isNext ? ' next-call' : ''}">
