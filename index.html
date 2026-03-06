@@ -264,7 +264,7 @@ body {
 <script>
 (function () {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzEdMMVhRVZAAKQZjFa_RSW9xahAYYdruQcB0ZFybvUa9cFlE7oO0-5OyvPUi-KZ7PH6g/exec';
-  const ZOOM_LINK  = 'YOUR-ZOOM-LINK'; // ← update when ready
+
 
   const MONTHS       = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const MONTHS_SHORT = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -328,7 +328,7 @@ body {
     <h4 class="tvcc-title">Team V Community Coaching Call</h4>
     <p class="tvcc-meta">${weekday}, ${month} ${day}, ${year}<br>${timeS} – ${timeE} PT</p>
     <div class="tvcc-actions">
-      ${isNext ? `<a class="tvcc-btn tvcc-btn-primary" href="${ZOOM_LINK}" target="_blank" rel="noopener noreferrer">Join Call</a>` : ''}
+      ${ev.location ? `<a class="tvcc-btn tvcc-btn-primary" href="${ev.location}" target="_blank" rel="noopener noreferrer">Join Call</a>` : ''}
       <a class="tvcc-btn tvcc-btn-secondary" href="${gcLink}" target="_blank" rel="noopener noreferrer">Add to Calendar</a>
     </div>
   </div>
