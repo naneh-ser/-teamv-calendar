@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team V Community Calendar</title>
+<style>
+/* =============================================
+   Team V Community Calendar
+   ============================================= */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: inherit;
+  background: transparent;
+  padding: 0;
+}
+
+/* --- Custom Properties --- */
+.teamv-calendar {
+  --tvcc-brand:       #7B1418;
+  --tvcc-brand-dark:  #651014;
+  --tvcc-brand-light: #F6EAEA;
+  --tvcc-border:      #e8e8e8;
+  --tvcc-text:        #333;
+  --tvcc-meta:        #666;
+  --tvcc-white:       #fff;
+  --tvcc-radius-sm:   4px;
+  --tvcc-radius-md:   6px;
+  --tvcc-radius-lg:   10px;
+  --tvcc-shadow:      0 2px 8px rgba(0,0,0,0.06);
+  --tvcc-transition:  background 0.2s ease, color 0.2s ease;
+}
+
+.teamv-calendar .tvcc-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  font-family: inherit;
+}
+
+.teamv-calendar .tvcc-header {
+  background: var(--tvcc-brand-light);
+  border-left: 4px solid var(--tvcc-brand);
+  padding: 22px 20px;
+  border-radius: var(--tvcc-radius-lg);
+  margin-bottom: 28px;
+}
+
+.teamv-calendar .tvcc-header h2 {
+  color: var(--tvcc-brand);
+  margin: 0 0 8px;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.teamv-calendar .tvcc-header p {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--tvcc-text);
+}
+
+.teamv-calendar .tvcc-month {
+  margin: 28px 0 12px;
+  color: var(--tvcc-brand);
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.teamv-calendar .tvcc-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--tvcc-white);
+  border: 1px solid var(--tvcc-border);
+  border-radius: var(--tvcc-radius-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--tvcc-shadow);
+  transition: box-shadow 0.2s ease;
+}
+
+.teamv-calendar .tvcc-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+}
+
+.teamv-calendar .tvcc-card.next-call {
+  border-color: var(--tvcc-brand);
+  background: #fffdfd;
+}
+
+.teamv-calendar .tvcc-date {
+  background: var(--tvcc-brand);
+  color: var(--tvcc-white);
+  border-radius: var(--tvcc-radius-md);
+  width: 110px;
+  min-width: 110px;
+  padding: 14px 10px;
+  text-align: center;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.teamv-calendar .tvcc-date .month {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.teamv-calendar .tvcc-date .day {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.teamv-calendar .tvcc-date .weekday {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.teamv-calendar .tvcc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.teamv-calendar .tvcc-topline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.teamv-calendar .tvcc-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tvcc-brand);
+  background: var(--tvcc-brand-light);
+  border-radius: var(--tvcc-radius-sm);
+}
+
+.teamv-calendar .tvcc-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--tvcc-text);
+}
+
+.teamv-calendar .tvcc-meta {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tvcc-meta);
+  line-height: 1.7;
+}
+
+.teamv-calendar .tvcc-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.teamv-calendar .tvcc-btn {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: var(--tvcc-radius-sm);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: var(--tvcc-transition);
+}
+
+.teamv-calendar .tvcc-btn-primary {
+  background: var(--tvcc-brand);
+  color: var(--tvcc-white);
+  border: 1px solid var(--tvcc-brand);
+}
+
+.teamv-calendar .tvcc-btn-primary:hover,
+.teamv-calendar .tvcc-btn-primary:focus-visible {
+  background: var(--tvcc-brand-dark);
+  border-color: var(--tvcc-brand-dark);
+  outline: none;
+}
+
+.teamv-calendar .tvcc-btn-secondary {
+  background: var(--tvcc-white);
+  color: var(--tvcc-brand);
+  border: 1px solid var(--tvcc-brand);
+}
+
+.teamv-calendar .tvcc-btn-secondary:hover,
+.teamv-calendar .tvcc-btn-secondary:focus-visible {
+  background: var(--tvcc-brand-light);
+  outline: none;
+}
+
+.teamv-calendar .tvcc-btn:focus-visible {
+  outline: 2px solid var(--tvcc-brand);
+  outline-offset: 2px;
+}
+
+.tvcc-loading {
+  padding: 20px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  .teamv-calendar .tvcc-card {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .teamv-calendar .tvcc-date {
+    width: 100%;
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    border-radius: var(--tvcc-radius-sm);
+  }
+  .teamv-calendar .tvcc-date .month,
+  .teamv-calendar .tvcc-date .weekday { margin-bottom: 0; }
+  .teamv-calendar .tvcc-date .day { font-size: 22px; margin-bottom: 0; }
+  .teamv-calendar .tvcc-header h2 { font-size: 26px; }
+  .teamv-calendar .tvcc-title { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="teamv-calendar">
+  <div class="tvcc-wrap">
+
+    <div class="tvcc-header">
+      <h2>Community Call Schedule</h2>
+      <p>Here's a look at our upcoming community calls through the end of 2026. You can save any session to your calendar and join the next live call directly from this page. Dates and times may occasionally shift — we'll always keep this page updated so you have the latest schedule.</p>
+    </div>
+
+    <div id="tvcc-events">
+      <p class="tvcc-loading">Loading schedule…</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzEdMMVhRVZAAKQZjFa_RSW9xahAYYdruQcB0ZFybvUa9cFlE7oO0-5OyvPUi-KZ7PH6g/exec';
+  const ZOOM_LINK  = 'YOUR-ZOOM-LINK'; // ← update when ready
+
+  const MONTHS       = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const MONTHS_SHORT = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const DAYS         = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  const container = document.getElementById('tvcc-events');
+
+  fetch(SCRIPT_URL)
+    .then(r => r.json())
+    .then(events => {
+      if (!events.length) {
+        container.innerHTML = '<p class="tvcc-loading">No upcoming calls scheduled.</p>';
+        return;
+      }
+
+      // Group events by month
+      const groups = {};
+      events.forEach(ev => {
+        const dt  = new Date(ev.start);
+        const key = `${dt.getFullYear()}-${String(dt.getMonth()).padStart(2,'0')}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(ev);
+      });
+
+      let html     = '';
+      let firstCard = true;
+
+      Object.keys(groups).sort().forEach(key => {
+        const evts    = groups[key];
+        const firstDt = new Date(evts[0].start);
+
+        html += `<h3 class="tvcc-month">${MONTHS[firstDt.getMonth()]} ${firstDt.getFullYear()}</h3>`;
+
+        evts.forEach(ev => {
+          const start   = new Date(ev.start);
+          const end     = new Date(ev.end);
+          const isNext  = firstCard;
+          firstCard     = false;
+
+          const mo      = MONTHS_SHORT[start.getMonth()];
+          const day     = start.toLocaleString('en-US', { day: 'numeric',   timeZone: 'America/Los_Angeles' });
+          const weekday = start.toLocaleString('en-US', { weekday: 'long',  timeZone: 'America/Los_Angeles' });
+          const month   = start.toLocaleString('en-US', { month: 'long',    timeZone: 'America/Los_Angeles' });
+          const year    = start.toLocaleString('en-US', { year: 'numeric',  timeZone: 'America/Los_Angeles' });
+          const timeS   = start.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Los_Angeles' });
+          const timeE   = end.toLocaleString('en-US',   { hour: 'numeric', minute: '2-digit', timeZone: 'America/Los_Angeles' });
+
+          const gcStart = start.toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z';
+          const gcEnd   = end.toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z';
+          const gcLink  = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Team+V+Community+Coaching+Call&dates=${gcStart}/${gcEnd}`;
+
+          html += `
+<div class="tvcc-card${isNext ? ' next-call' : ''}">
+  <div class="tvcc-date" aria-label="${month} ${day}, ${weekday}">
+    <span class="month">${mo}</span>
+    <span class="day">${day}</span>
+    <span class="weekday">${weekday}</span>
+  </div>
+  <div class="tvcc-info">
+    ${isNext ? '<div class="tvcc-topline"><span class="tvcc-badge">Next Live Call</span></div>' : ''}
+    <h4 class="tvcc-title">Team V Community Coaching Call</h4>
+    <p class="tvcc-meta">${weekday}, ${month} ${day}, ${year}<br>${timeS} – ${timeE} PT</p>
+    <div class="tvcc-actions">
+      ${isNext ? `<a class="tvcc-btn tvcc-btn-primary" href="${ZOOM_LINK}" target="_blank" rel="noopener noreferrer">Join Call</a>` : ''}
+      <a class="tvcc-btn tvcc-btn-secondary" href="${gcLink}" target="_blank" rel="noopener noreferrer">Add to Calendar</a>
+    </div>
+  </div>
+</div>`;
+        });
+      });
+
+      container.innerHTML = html;
+    })
+    .catch(() => {
+      container.innerHTML = '<p class="tvcc-loading">Could not load the schedule. Please check back shortly.</p>';
+    });
+}());
+</script>
+</body>
+</html>
