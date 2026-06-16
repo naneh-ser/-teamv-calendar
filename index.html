@@ -294,7 +294,7 @@ body {
       let html      = '';
       let firstCard = true;
 
-      Object.keys(groups).sort().forEach(key => {
+      Object.keys(groups).sort((a, b) => new Date(a) - new Date(b)).forEach(key => {
         const { label, events: evts } = groups[key];
         html += `<h3 class="tvcc-month">${label}</h3>`;
 
