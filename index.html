@@ -280,23 +280,23 @@ body {
         return;
       }
 
-      // Group events by month
+      // Group events by month in PT timezone
       const groups = {};
       events.forEach(ev => {
-        const dt  = new Date(ev.start);
-        const key = `${dt.getFullYear()}-${String(dt.getMonth()).padStart(2,'0')}`;
-        if (!groups[key]) groups[key] = [];
-        groups[key].push(ev);
+        const dt     = new Date(ev.start);
+        const ptMonth = dt.toLocaleString('en-US', { month: 'long',    timeZone: 'America/Los_Angeles' });
+        const ptYear  = dt.toLocaleString('en-US', { year:  'numeric', timeZone: 'America/Los_Angeles' });
+        const key     = `${ptYear}-${ptMonth}`;
+        if (!groups[key]) groups[key] = { label: `${ptMonth} ${ptYear}`, events: [] };
+        groups[key].events.push(ev);
       });
 
-      let html     = '';
+      let html      = '';
       let firstCard = true;
 
       Object.keys(groups).sort().forEach(key => {
-        const evts    = groups[key];
-        const firstDt = new Date(evts[0].start);
-
-        html += `<h3 class="tvcc-month">${MONTHS[firstDt.getMonth()]} ${firstDt.getFullYear()}</h3>`;
+        const { label, events: evts } = groups[key];
+        html += `<h3 class="tvcc-month">${label}</h3>`;
 
         evts.forEach(ev => {
           const start   = new Date(ev.start);
