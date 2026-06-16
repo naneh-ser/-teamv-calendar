@@ -272,7 +272,7 @@ body {
 
   const container = document.getElementById('tvcc-events');
 
-  fetch(SCRIPT_URL)
+  fetch(SCRIPT_URL + '?t=' + Date.now())
     .then(r => r.json())
     .then(events => {
       if (!events.length) {
@@ -304,7 +304,7 @@ body {
           const isNext  = firstCard;
           firstCard     = false;
 
-          const mo      = MONTHS_SHORT[start.getMonth()];
+          const mo      = start.toLocaleString('en-US', { month: 'short', timeZone: 'America/Los_Angeles' }).toUpperCase();
           const day     = start.toLocaleString('en-US', { day: 'numeric',   timeZone: 'America/Los_Angeles' });
           const weekday = start.toLocaleString('en-US', { weekday: 'long',  timeZone: 'America/Los_Angeles' });
           const month   = start.toLocaleString('en-US', { month: 'long',    timeZone: 'America/Los_Angeles' });
